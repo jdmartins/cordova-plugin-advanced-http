@@ -110,7 +110,7 @@ public class CordovaHttpPlugin extends CordovaPlugin {
                     callbackContext.error("There was an error setting up ssl pinning");
                 }
             }
-        } else if (action.equals("uploadFiles")) {
+        } else if (action.equals("uploadFile")) {
             String urlString = args.getString(0);
             Object params = args.get(1);
             String serializerName = args.getString(2);

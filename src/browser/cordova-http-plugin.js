@@ -182,7 +182,7 @@ var browserInterface = {
   head: function(success, failure, opts) {
     return sendRequest('head', false, opts, success, failure);
   },
-  uploadFiles: function(success, failure, opts) {
+  uploadFile: function(success, failure, opts) {
     return failure('advanced-http: function "uploadFile" not supported on browser platform');
   },
   downloadFile: function(success, failure, opts) {

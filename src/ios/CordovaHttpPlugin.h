@@ -10,8 +10,8 @@
 - (void)get:(CDVInvokedUrlCommand *)command;
 - (void)put:(CDVInvokedUrlCommand *)command;
 - (void)patch:(CDVInvokedUrlCommand *)command;
-- (void)delete:(CDVInvokedUrlCommand *)command;
-- (void)uploadFiles:(CDVInvokedUrlCommand *)command;
+- (void) delete:(CDVInvokedUrlCommand *)command;
+- (void)uploadFile:(CDVInvokedUrlCommand *)command;
 - (void)downloadFile:(CDVInvokedUrlCommand *)command;
 
 @end

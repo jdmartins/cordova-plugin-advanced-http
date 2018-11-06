@@ -405,7 +405,7 @@
     }
 }
 
-- (void)uploadFiles:(CDVInvokedUrlCommand*)command {
+- (void)uploadFile:(CDVInvokedUrlCommand*)command {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.securityPolicy = securityPolicy;
 

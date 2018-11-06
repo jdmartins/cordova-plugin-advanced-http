@@ -101,7 +101,7 @@ var publicInterface = {
           options.timeout
         ]);
       case 'upload':
-        return exec(onSuccess, onFail, 'CordovaHttpPlugin', 'uploadFiles', [
+        return exec(onSuccess, onFail, 'CordovaHttpPlugin', 'uploadFile', [
           url,
           data,
           options.serializer,
@@ -180,7 +180,7 @@ var publicInterface = {
       failure
     );
   },
-  uploadFiles: function(url, data, headers, filePaths, name, success, failure) {
+  uploadFile: function(url, data, headers, filePaths, name, success, failure) {
     return publicInterface.sendRequest(
       url,
       { method: 'upload', data: data, headers: headers, filePaths: filePaths, name: name },

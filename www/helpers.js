@@ -2,9 +2,9 @@ var pluginId = module.id.slice(0, module.id.lastIndexOf('.'));
 var cookieHandler = require(pluginId + '.cookie-handler');
 var messages = require(pluginId + '.messages');
 
-var validSerializers = [ 'urlencoded', 'json', 'utf8' ];
-var validCertModes = [ 'default', 'nocheck', 'pinned' ];
-var validHttpMethods = [ 'get', 'put', 'post', 'patch', 'head', 'delete', 'upload', 'download' ];
+var validSerializers = ['urlencoded', 'json', 'utf8'];
+var validCertModes = ['default', 'nocheck', 'pinned'];
+var validHttpMethods = ['get', 'put', 'post', 'patch', 'head', 'delete', 'upload', 'download'];
 
 module.exports = {
   b64EncodeUnicode: b64EncodeUnicode,
@@ -23,9 +23,11 @@ module.exports = {
 
 // Thanks Mozilla: https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding#The_.22Unicode_Problem.22
 function b64EncodeUnicode(str) {
-  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, p1) {
-    return String.fromCharCode('0x' + p1);
-  }));
+  return btoa(
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+      return String.fromCharCode('0x' + p1);
+    })
+  );
 }
 
 function mergeHeaders(globalHeaders, localHeaders) {
@@ -110,11 +112,11 @@ function checkTimeoutValue(timeout) {
 }
 
 function checkHeadersObject(headers) {
-  return checkKeyValuePairObject(headers, [ 'String' ], messages.INVALID_HEADERS_VALUE);
+  return checkKeyValuePairObject(headers, ['String'], messages.INVALID_HEADERS_VALUE);
 }
 
 function checkParamsObject(params) {
-  return checkKeyValuePairObject(params, [ 'String', 'Array' ], messages.INVALID_PARAMS_VALUE);
+  return checkKeyValuePairObject(params, ['String', 'Array'], messages.INVALID_PARAMS_VALUE);
 }
 
 function resolveCookieString(headers) {
@@ -136,7 +138,10 @@ function createFileEntry(rawEntry) {
   entry.isFile = rawEntry.isFile;
   entry.name = rawEntry.name;
   entry.fullPath = rawEntry.fullPath;
-  entry.filesystem = new FileSystem(rawEntry.filesystemName || (rawEntry.filesystem == window.PERSISTENT ? 'persistent' : 'temporary'));
+  entry.filesystem = new FileSystem(
+    rawEntry.filesystemName ||
+      (rawEntry.filesystem == window.PERSISTENT ? 'persistent' : 'temporary')
+  );
   entry.nativeURL = rawEntry.nativeURL;
 
   return entry;
@@ -146,13 +151,13 @@ function injectCookieHandler(url, cb) {
   return function(response) {
     cookieHandler.setCookieFromString(url, resolveCookieString(response.headers));
     cb(response);
-  }
+  };
 }
 
 function injectFileEntryHandler(cb) {
   return function(response) {
     cb(createFileEntry(response.file));
-  }
+  };
 }
 
 function getCookieHeader(url) {
@@ -249,7 +254,7 @@ function handleMissingOptions(options, globals) {
     headers: checkHeadersObject(options.headers || {}),
     params: checkParamsObject(options.params || {}),
     data: options.data || null,
-    filePath: options.filePath || '',
+    filePaths: options.filePaths || [],
     name: options.name || ''
   };
 }

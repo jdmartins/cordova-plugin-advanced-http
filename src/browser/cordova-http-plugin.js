@@ -20,28 +20,32 @@ function serializePrimitive(key, value) {
 }
 
 function serializeArray(key, values) {
-  return values.map(function(value) {
-    return encodeURIComponent(key) + '[]=' + encodeURIComponent(value);
-  }).join('&');
+  return values
+    .map(function(value) {
+      return encodeURIComponent(key) + '[]=' + encodeURIComponent(value);
+    })
+    .join('&');
 }
 
 function serializeParams(params) {
   if (params === null) return '';
 
-  return Object.keys(params).map(function(key) {
-    if (helpers.getTypeOf(params[key]) === 'Array') {
-      return serializeArray(key, params[key]);
-    }
+  return Object.keys(params)
+    .map(function(key) {
+      if (helpers.getTypeOf(params[key]) === 'Array') {
+        return serializeArray(key, params[key]);
+      }
 
-    return serializePrimitive(key, params[key]);
-  }).join('&');
+      return serializePrimitive(key, params[key]);
+    })
+    .join('&');
 }
 
 function deserializeResponseHeaders(headers) {
   var headerMap = {};
   var arr = headers.trim().split(/[\r\n]+/);
 
-  arr.forEach(function (line) {
+  arr.forEach(function(line) {
     var parts = line.split(': ');
     var header = parts.shift().toLowerCase();
     var value = parts.join(': ');
@@ -142,11 +146,11 @@ function sendRequest(method, withData, opts, success, failure) {
   xhr.timeout = timeout * 1000;
   setHeaders(xhr, headers);
 
-  xhr.onerror = xhr.ontimeout = function () {
+  xhr.onerror = xhr.ontimeout = function() {
     return failure(createXhrFailureObject(xhr));
   };
 
-  xhr.onload = function () {
+  xhr.onload = function() {
     if (xhr.readyState !== xhr.DONE) return;
 
     if (xhr.status < 200 || xhr.status > 299) {
@@ -160,34 +164,34 @@ function sendRequest(method, withData, opts, success, failure) {
 }
 
 var browserInterface = {
-  post: function (success, failure, opts) {
+  post: function(success, failure, opts) {
     return sendRequest('post', true, opts, success, failure);
   },
-  get: function (success, failure, opts) {
+  get: function(success, failure, opts) {
     return sendRequest('get', false, opts, success, failure);
   },
-  put: function (success, failure, opts) {
+  put: function(success, failure, opts) {
     return sendRequest('put', true, opts, success, failure);
   },
-  patch: function (success, failure, opts) {
+  patch: function(success, failure, opts) {
     return sendRequest('patch', true, opts, success, failure);
   },
-  delete: function (success, failure, opts) {
+  delete: function(success, failure, opts) {
     return sendRequest('delete', false, opts, success, failure);
   },
-  head: function (success, failure, opts) {
+  head: function(success, failure, opts) {
     return sendRequest('head', false, opts, success, failure);
   },
-  uploadFile: function (success, failure, opts) {
+  uploadFiles: function(success, failure, opts) {
     return failure('advanced-http: function "uploadFile" not supported on browser platform');
   },
-  downloadFile: function (success, failure, opts) {
+  downloadFile: function(success, failure, opts) {
     return failure('advanced-http: function "downloadFile" not supported on browser platform');
   },
-  setSSLCertMode: function (success, failure, opts) {
+  setSSLCertMode: function(success, failure, opts) {
     return failure('advanced-http: function "setSSLCertMode" not supported on browser platform');
   },
-  disableRedirect: function (success, failure, opts) {
+  disableRedirect: function(success, failure, opts) {
     return failure('advanced-http: function "disableRedirect" not supported on browser platform');
   }
 };
